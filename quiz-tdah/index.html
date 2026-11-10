@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Teste de TDAH | Clínica Evidência</title>
+<meta name="description" content="Teste gratuito de sinais de TDAH em adultos. Resultado em 3 minutos.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5f7f6; --card:#ffffff; --ink:#10233a; --muted:#5b6b7c; --line:#e3e8ec;
+  --brand:#0f766e; --brand-2:#14b8a6; --brand-soft:#e6f6f4; --accent:#f59e0b;
+  --danger-soft:#fff4e5; --radius:18px; --shadow:0 10px 30px rgba(16,35,58,.08);
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Plus Jakarta Sans",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit}
+.wrap{min-height:100dvh;display:flex;flex-direction:column;align-items:center;padding:16px 16px 32px}
+.top{width:100%;max-width:560px;display:flex;align-items:center;gap:12px;height:44px}
+.back{width:40px;height:40px;border:0;background:transparent;border-radius:12px;cursor:pointer;display:grid;place-items:center;visibility:hidden}
+.back:hover{background:#e9eef1}
+.bar{flex:1;height:8px;background:#e3e8ec;border-radius:99px;overflow:hidden}
+.bar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),var(--brand-2));border-radius:99px;transition:width .35s ease}
+.count{font-size:13px;color:var(--muted);min-width:44px;text-align:right;font-weight:600}
+.brand{font-weight:800;letter-spacing:-.01em;font-size:15px;color:var(--brand);display:flex;align-items:center;gap:8px;margin:6px 0 2px}
+.brand svg{flex:none}
+main{width:100%;max-width:560px;margin-top:8px}
+.screen{display:none;animation:in .35s ease}
+.screen.on{display:block}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 22px}
+.pill{display:inline-flex;align-items:center;gap:6px;background:var(--brand-soft);color:var(--brand);font-weight:700;font-size:13px;padding:6px 12px;border-radius:99px}
+h1{font-size:clamp(26px,6.4vw,34px);line-height:1.15;letter-spacing:-.02em;margin:14px 0 12px;font-weight:800}
+h2{font-size:clamp(20px,5vw,24px);line-height:1.25;letter-spacing:-.01em;margin:6px 0 18px;font-weight:700}
+p{line-height:1.6;color:var(--muted);margin:0 0 14px;font-size:16px}
+.lead b{color:var(--ink)}
+.proof{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 22px}
+.proof span{font-size:13px;font-weight:600;background:#f2f5f7;border:1px solid var(--line);padding:7px 10px;border-radius:10px;color:#33475b}
+.cta{width:100%;border:0;border-radius:14px;padding:17px 18px;font-size:17px;font-weight:700;background:var(--brand);color:#fff;cursor:pointer;box-shadow:0 8px 20px rgba(15,118,110,.25);transition:transform .08s ease, background .2s}
+.cta:hover{background:#0b5f58}
+.cta:active{transform:scale(.99)}
+.cta[disabled]{opacity:.45;cursor:not-allowed;box-shadow:none}
+.cta.wa{background:#1fae54;box-shadow:0 8px 20px rgba(31,174,84,.28)}
+.cta.wa:hover{background:#178f45}
+.note{font-size:13px;color:var(--muted);background:#f2f5f7;border-radius:12px;padding:12px 14px;margin-top:16px;line-height:1.5}
+.kicker{font-size:13px;font-weight:700;color:var(--brand);text-transform:uppercase;letter-spacing:.06em;margin:0}
+.opts{display:grid;gap:10px}
+.opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:15px 16px;cursor:pointer;font-size:16px;font-weight:600;transition:border-color .15s, background .15s, transform .08s}
+.opt:hover{border-color:#b9c7d2}
+.opt:active{transform:scale(.995)}
+.opt .dot{width:22px;height:22px;border-radius:50%;border:2px solid #c3ced8;flex:none;display:grid;place-items:center;transition:all .15s}
+.opt.sel{border-color:var(--brand);background:var(--brand-soft)}
+.opt.sel .dot{border-color:var(--brand);background:var(--brand)}
+.opt.sel .dot::after{content:"";width:8px;height:8px;background:#fff;border-radius:50%}
+.opt.multi .dot{border-radius:6px}
+.opt.multi.sel .dot::after{width:10px;height:6px;border:solid #fff;border-width:0 0 2.5px 2.5px;background:none;border-radius:0;transform:rotate(-45deg) translate(1px,-1px)}
+.hint{font-size:14px;color:var(--muted);margin:-8px 0 16px}
+.scale{margin:8px 0 22px}
+.scale-n{font-size:44px;font-weight:800;text-align:center;color:var(--brand);margin-bottom:4px}
+input[type=range]{width:100%;accent-color:var(--brand);height:28px}
+.scale-l{display:flex;justify-content:space-between;font-size:13px;color:var(--muted)}
+.field{margin-bottom:14px}
+.field label{display:block;font-weight:700;font-size:14px;margin-bottom:6px}
+.field input{width:100%;font:inherit;font-size:16px;padding:14px 14px;border:1.5px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);outline:none;transition:border-color .15s}
+.field input:focus{border-color:var(--brand)}
+.field .err{display:none;color:#b42318;font-size:13px;margin-top:6px}
+.field.bad input{border-color:#e5484d}
+.field.bad .err{display:block}
+.consent{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--muted);line-height:1.5;margin:4px 0 18px;cursor:pointer}
+.consent input{width:18px;height:18px;margin-top:2px;accent-color:var(--brand);flex:none}
+.lock{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--muted);justify-content:center;margin-top:12px}
+.loading{text-align:center;padding:40px 10px}
+.spinner{width:56px;height:56px;border-radius:50%;border:5px solid var(--brand-soft);border-top-color:var(--brand);margin:0 auto 22px;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.steps-load{list-style:none;padding:0;margin:18px auto 0;max-width:300px;text-align:left}
+.steps-load li{font-size:15px;color:var(--muted);padding:6px 0;display:flex;gap:10px;align-items:center;opacity:.35;transition:opacity .3s}
+.steps-load li.ok{opacity:1;color:var(--ink)}
+.steps-load li::before{content:"○";color:var(--brand);font-weight:800}
+.steps-load li.ok::before{content:"✓"}
+.result-head{text-align:center}
+.gauge{position:relative;width:220px;height:120px;margin:10px auto 6px}
+.gauge svg{width:220px;height:120px}
+.gauge .lbl{position:absolute;left:0;right:0;bottom:0;text-align:center;font-weight:800;font-size:28px}
+.tier{display:inline-block;font-weight:800;font-size:14px;padding:6px 12px;border-radius:99px;margin-bottom:8px}
+.tier.alto{background:#fde8e8;color:#b42318}.tier.medio{background:#fff4e5;color:#b45309}.tier.baixo{background:#e6f6f4;color:var(--brand)}
+.dims{display:grid;gap:14px;margin:22px 0}
+.dim .row{display:flex;justify-content:space-between;font-weight:700;font-size:15px;margin-bottom:6px}
+.dim .row span:last-child{color:var(--muted);font-weight:600}
+.track{height:10px;background:#edf1f4;border-radius:99px;overflow:hidden}
+.track i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--brand),var(--brand-2));transition:width 1s ease .2s}
+.box{border:1px solid var(--line);border-radius:14px;padding:16px;margin:16px 0}
+.box h3{margin:0 0 8px;font-size:16px}
+.box ul{margin:0;padding-left:18px;color:var(--muted);line-height:1.6}
+.box p:last-child{margin-bottom:0}
+.footer{font-size:12px;color:#8a99a8;text-align:center;margin-top:22px;line-height:1.5;max-width:560px}
+@media (min-width:600px){.card{padding:36px 34px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <button class="back" id="back" aria-label="Voltar">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#10233a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="bar" aria-hidden="true"><i id="bar"></i></div>
+    <div class="count" id="count"></div>
+  </div>
+
+  <main id="app">
+
+    <!-- 0. Abertura -->
+    <section class="screen on" data-step="intro">
+      <div class="card">
+        <div class="brand">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#0f766e" stroke-width="2"/><path d="M8 12.5l2.6 2.6L16 9.5" stroke="#0f766e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Clínica Evidência
+        </div>
+        <span class="pill">✦ Teste gratuito · 3 minutos</span>
+        <h1>Será que é TDAH?</h1>
+        <p class="lead">Muita gente passa anos lutando com <b>foco, organização e procrastinação</b> achando que é falta de esforço. Este teste rápido mostra se vale a pena investigar com uma avaliação.</p>
+        <div class="proof">
+          <span>⭐ 5 estrelas no Google</span>
+          <span>🧠 +500 pacientes atendidos</span>
+          <span>🎥 Parceira do canal Olá Ciência</span>
+        </div>
+        <button class="cta" data-next>Começar o teste</button>
+        <div class="note">Este teste é um rastreio. Ele não dá diagnóstico: só uma avaliação com profissional pode confirmar TDAH.</div>
+      </div>
+    </section>
+
+    <!-- 1–6. perguntas de rastreio -->
+    <!-- 1. Contato (logo depois da capa, para recuperar quem para no meio) -->
+    <section class="screen" data-step="contato">
+      <div class="card">
+        <span class="pill">🔒 Antes de começar</span>
+        <h2 style="margin-top:14px">Para onde enviamos o seu resultado?</h2>
+        <p style="margin-top:8px;color:var(--muted)">São 10 perguntas rápidas, cerca de 3 minutos. No final você vê o resultado na hora.</p>
+        <form id="form" novalidate>
+          <div class="field" id="f-nome">
+            <label for="nome">Seu nome</label>
+            <input id="nome" name="nome" autocomplete="given-name" placeholder="Como podemos te chamar?">
+            <div class="err">Digite seu nome.</div>
+          </div>
+          <div class="field" id="f-wpp">
+            <label for="wpp">WhatsApp</label>
+            <input id="wpp" name="wpp" inputmode="tel" autocomplete="tel-national" placeholder="(34) 99999-9999">
+            <div class="err">Digite um WhatsApp válido com DDD.</div>
+          </div>
+          <div class="field" id="f-email">
+            <label for="email">E-mail <span style="font-weight:500;color:var(--muted)">(opcional)</span></label>
+            <input id="email" name="email" type="email" autocomplete="email" placeholder="seu@email.com">
+            <div class="err">Confira o e-mail.</div>
+          </div>
+          <label class="consent"><input type="checkbox" id="lgpd" checked> Autorizo a Clínica Evidência a usar estes dados para me enviar o resultado e entrar em contato pelo WhatsApp, conforme a LGPD.</label>
+          <button class="cta" type="submit" id="send">Começar o teste</button>
+          <div class="lock">🔒 Seus dados ficam só com a clínica. Sem spam.</div>
+        </form>
+      </div>
+    </section>
+
+    <section class="screen" data-step="q" data-q="1"></section>
+    <section class="screen" data-step="q" data-q="2"></section>
+    <section class="screen" data-step="q" data-q="3"></section>
+    <section class="screen" data-step="q" data-q="4"></section>
+    <section class="screen" data-step="q" data-q="5"></section>
+    <section class="screen" data-step="q" data-q="6"></section>
+
+    <!-- 7. Impacto -->
+    <section class="screen" data-step="impacto">
+      <div class="card">
+        <p class="kicker">Sobre o seu dia a dia</p>
+        <h2>Onde isso mais te atrapalha hoje?</h2>
+        <p class="hint">Pode marcar mais de uma.</p>
+        <div class="opts" data-multi="impacto">
+          <button class="opt multi" data-v="Trabalho ou estudos"><span class="dot"></span>Trabalho ou estudos</button>
+          <button class="opt multi" data-v="Relacionamentos"><span class="dot"></span>Relacionamentos</button>
+          <button class="opt multi" data-v="Dinheiro e contas"><span class="dot"></span>Dinheiro e contas</button>
+          <button class="opt multi" data-v="Rotina e casa"><span class="dot"></span>Rotina e casa</button>
+          <button class="opt multi" data-v="Autoestima"><span class="dot"></span>Autoestima e cansaço mental</button>
+        </div>
+        <div style="height:18px"></div>
+        <button class="cta" data-next id="impactoNext" disabled>Continuar</button>
+      </div>
+    </section>
+
+    <!-- 8. Histórico -->
+    <section class="screen" data-step="historico">
+      <div class="card">
+        <p class="kicker">Seu histórico</p>
+        <h2>Você já investigou TDAH antes?</h2>
+        <div class="opts" data-single="historico">
+          <button class="opt" data-v="Nunca investiguei"><span class="dot"></span>Nunca investiguei</button>
+          <button class="opt" data-v="Já suspeitei, mas nunca fiz avaliação"><span class="dot"></span>Já suspeitei, mas nunca fiz avaliação</button>
+          <button class="opt" data-v="Tenho diagnóstico e não faço tratamento"><span class="dot"></span>Tenho diagnóstico e não faço tratamento</button>
+          <button class="opt" data-v="Tenho diagnóstico e faço tratamento"><span class="dot"></span>Tenho diagnóstico e faço tratamento</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. Idade -->
+    <section class="screen" data-step="idade">
+      <div class="card">
+        <p class="kicker">Quase lá</p>
+        <h2>Qual é a sua idade?</h2>
+        <div class="opts" data-single="idade">
+          <button class="opt" data-v="Menos de 16"><span class="dot"></span>Menos de 16 anos</button>
+          <button class="opt" data-v="16 a 24"><span class="dot"></span>16 a 24 anos</button>
+          <button class="opt" data-v="25 a 34"><span class="dot"></span>25 a 34 anos</button>
+          <button class="opt" data-v="35 a 49"><span class="dot"></span>35 a 49 anos</button>
+          <button class="opt" data-v="50 ou mais"><span class="dot"></span>50 anos ou mais</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. Urgência -->
+    <section class="screen" data-step="urgencia">
+      <div class="card">
+        <p class="kicker">Última pergunta</p>
+        <h2>De 0 a 10, quanto você quer resolver isso agora?</h2>
+        <div class="scale">
+          <div class="scale-n" id="urgN">5</div>
+          <input type="range" min="0" max="10" step="1" value="5" id="urg" aria-label="Urgência de 0 a 10">
+          <div class="scale-l"><span>0 · posso esperar</span><span>10 · quero resolver já</span></div>
+        </div>
+        <button class="cta" data-next>Continuar</button>
+      </div>
+    </section>
+
+    <!-- 12. Analisando -->
+    <section class="screen" data-step="loading">
+      <div class="card loading">
+        <div class="spinner"></div>
+        <h2 style="margin:0 0 6px">Analisando suas respostas</h2>
+        <ul class="steps-load" id="loadSteps">
+          <li>Calculando sinais de desatenção</li>
+          <li>Calculando sinais de hiperatividade</li>
+          <li>Cruzando com o impacto no seu dia a dia</li>
+          <li>Montando sua recomendação</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 13. Resultado -->
+    <section class="screen" data-step="resultado">
+      <div class="card">
+        <div class="result-head">
+          <p class="kicker" id="rHello"></p>
+          <div class="gauge">
+            <svg viewBox="0 0 220 120" aria-hidden="true">
+              <path d="M20 110 A90 90 0 0 1 200 110" fill="none" stroke="#edf1f4" stroke-width="18" stroke-linecap="round"/>
+              <path id="gArc" d="M20 110 A90 90 0 0 1 200 110" fill="none" stroke="url(#g)" stroke-width="18" stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="283" style="transition:stroke-dashoffset 1.2s ease .2s"/>
+              <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#14b8a6"/><stop offset=".6" stop-color="#f59e0b"/><stop offset="1" stop-color="#e5484d"/></linearGradient></defs>
+            </svg>
+            <div class="lbl" id="gLbl">0/6</div>
+          </div>
+          <span class="tier" id="rTier"></span>
+          <h2 id="rTitle" style="margin-top:6px"></h2>
+        </div>
+        <p id="rText"></p>
+
+        <div class="dims">
+          <div class="dim"><div class="row"><span>Desatenção e organização</span><span id="dA"></span></div><div class="track"><i id="tA"></i></div></div>
+          <div class="dim"><div class="row"><span>Inquietação e hiperatividade</span><span id="dH"></span></div><div class="track"><i id="tH"></i></div></div>
+        </div>
+
+        <div class="box" id="rImpact" hidden>
+          <h3>Onde isso aparece na sua vida</h3>
+          <p id="rImpactText"></p>
+        </div>
+
+        <div class="box">
+          <h3 id="rNextTitle">Próximo passo recomendado</h3>
+          <p id="rNext"></p>
+        </div>
+
+        <button class="cta wa" id="waBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff" style="vertical-align:-4px;margin-right:6px"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1112 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 01-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 00-.7.3 3 3 0 00-.9 2.2 5.2 5.2 0 001.1 2.7 11.8 11.8 0 004.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2s.2-1.1.1-1.2-.2-.2-.4-.3z"/></svg>
+          <span id="waLbl">Falar com a clínica no WhatsApp</span>
+        </button>
+        <div class="note">Este resultado é um rastreio inicial. Ele indica se vale investigar, mas não substitui avaliação com psicólogo, neuropsicólogo ou médico.</div>
+      </div>
+    </section>
+  </main>
+
+  <div class="footer">Clínica Evidência · Atendimento 100% online · Saúde mental baseada em evidências</div>
+</div>
+
+<script>
+/* ===================== CONFIGURAÇÃO ===================== */
+const CONFIG = {
+  whatsapp: "5534999990493",          // número da Clínica Evidência
+  webhookUrl: "https://fluxos.flowsads.com/webhook/form-lead", // URL do webhook do n8n (ou da Clint) que recebe o lead. Vazio = não envia.
+  origem: "Quiz TDAH"
+};
+/* ======================================================== */
+
+// Itens 1–3 contam a partir de "Às vezes"; 4–6 a partir de "Frequentemente".
+const QUESTIONS = [
+  {t:"Com que frequência você tem dificuldade para terminar os detalhes finais de um projeto, depois que a parte difícil já foi feita?", dim:"A", cut:2},
+  {t:"Com que frequência você tem dificuldade para organizar as coisas quando precisa fazer uma tarefa que exige organização?", dim:"A", cut:2},
+  {t:"Com que frequência você esquece compromissos ou obrigações?", dim:"A", cut:2},
+  {t:"Quando uma tarefa exige muita concentração, com que frequência você evita ou adia o começo?", dim:"A", cut:3},
+  {t:"Com que frequência você fica mexendo mãos ou pés, ou se remexendo, quando precisa ficar sentado(a) por muito tempo?", dim:"H", cut:3},
+  {t:"Com que frequência você se sente agitado(a) demais, como se estivesse “ligado(a) num motor”?", dim:"H", cut:3}
+];
+const SCALE = ["Nunca","Raramente","Às vezes","Frequentemente","Muito frequentemente"];
+
+const state = { answers:Array(6).fill(null), impacto:[], historico:null, idade:null, urgencia:5, nome:"", wpp:"", email:"" };
+
+// monta as telas das perguntas
+document.querySelectorAll('[data-step="q"]').forEach(sec=>{
+  const i = +sec.dataset.q - 1, q = QUESTIONS[i];
+  sec.innerHTML = `<div class="card"><p class="kicker">Pergunta ${i+1} de 6 · últimos 6 meses</p><h2>${q.t}</h2>
+    <div class="opts">${SCALE.map((s,v)=>`<button class="opt" data-a="${v}"><span class="dot"></span>${s}</button>`).join("")}</div></div>`;
+  sec.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>{
+    sec.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel')); b.classList.add('sel');
+    state.answers[i] = +b.dataset.a; track('quiz_resposta',{pergunta:i+1,resposta:SCALE[+b.dataset.a]});
+    setTimeout(next,260);
+  }));
+});
+
+const screens = [...document.querySelectorAll('.screen')];
+const progressSteps = screens.filter(s=>!['intro','loading','resultado'].includes(s.dataset.step)).length;
+let cur = 0, history = [];
+
+function show(i){
+  screens[cur].classList.remove('on'); cur = i; screens[cur].classList.add('on');
+  const step = screens[cur].dataset.step;
+  const idx = screens.slice(1,cur+1).filter(s=>!['loading','resultado'].includes(s.dataset.step)).length;
+  const pct = step==='intro'?0:step==='loading'||step==='resultado'?100:Math.round(idx/progressSteps*100);
+  document.getElementById('bar').style.width = pct+'%';
+  document.getElementById('count').textContent = (step==='intro'||step==='loading'||step==='resultado')?'':`${idx}/${progressSteps}`;
+  document.getElementById('back').style.visibility = (history.length && !['loading','resultado'].includes(step))?'visible':'hidden';
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(step==='contato') setTimeout(()=>document.getElementById('nome').focus(),350);
+}
+function next(){ history.push(cur); show(cur+1); }
+document.getElementById('back').addEventListener('click',()=>{ if(history.length) show(history.pop()); });
+document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click',()=>{
+  if(screens[cur].dataset.step==='intro') track('quiz_inicio');
+  if(screens[cur].dataset.step==='urgencia') return finalizar();
+  next();
+}));
+
+// múltipla escolha
+document.querySelectorAll('[data-multi] .opt').forEach(b=>b.addEventListener('click',()=>{
+  b.classList.toggle('sel');
+  state.impacto = [...document.querySelectorAll('[data-multi] .opt.sel')].map(x=>x.dataset.v);
+  document.getElementById('impactoNext').disabled = !state.impacto.length;
+}));
+// escolha única (histórico, idade)
+document.querySelectorAll('[data-single]').forEach(g=>g.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>{
+  g.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel')); b.classList.add('sel');
+  state[g.dataset.single] = b.dataset.v; setTimeout(next,260);
+})));
+// urgência
+const urg = document.getElementById('urg');
+urg.addEventListener('input',()=>{ state.urgencia=+urg.value; document.getElementById('urgN').textContent=urg.value; });
+
+// máscara do WhatsApp
+const wpp = document.getElementById('wpp');
+wpp.addEventListener('input',()=>{
+  let d = wpp.value.replace(/\D/g,'').slice(0,11);
+  wpp.value = d.length>10 ? `(${d.slice(0,2)}) ${d.slice(2,7)}-${d.slice(7)}` : d.length>6 ? `(${d.slice(0,2)}) ${d.slice(2,6)}-${d.slice(6)}` : d.length>2 ? `(${d.slice(0,2)}) ${d.slice(2)}` : d;
+});
+
+// UTMs e origem
+const params = new URLSearchParams(location.search);
+const utm = {}; ["utm_source","utm_medium","utm_campaign","utm_content","utm_term","fbclid","gclid"].forEach(k=>{ if(params.get(k)) utm[k]=params.get(k); });
+
+function score(){
+  let pos=0, A=0, H=0;
+  state.answers.forEach((v,i)=>{ const q=QUESTIONS[i]; if(v>=q.cut){ pos++; q.dim==='A'?A++:H++; } });
+  const raw = state.answers.reduce((s,v)=>s+(v||0),0); // 0–24
+  const tier = pos>=4 ? 'alto' : pos>=2 ? 'medio' : 'baixo';
+  return {pos,A,H,raw,tier};
+}
+
+document.getElementById('form').addEventListener('submit',e=>{
+  e.preventDefault();
+  const nome = document.getElementById('nome').value.trim();
+  const tel = wpp.value.replace(/\D/g,'');
+  const email = document.getElementById('email').value.trim();
+  const okN = nome.length>=2, okW = tel.length>=10 && tel.length<=11, okE = !email || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  document.getElementById('f-nome').classList.toggle('bad',!okN);
+  document.getElementById('f-wpp').classList.toggle('bad',!okW);
+  document.getElementById('f-email').classList.toggle('bad',!okE);
+  if(!okN||!okW||!okE) return;
+  Object.assign(state,{nome, wpp:'55'+tel, email});
+  if(!LEAD.contato){ LEAD.contato=true; leadSend(Object.assign({status:'parcial'}, leadProgresso())); }
+  track('quiz_contato');
+  next();
+});
+function finalizar(){
+  const s = score();
+  sendLead(s);
+  track('quiz_lead',{resultado:s.tier});
+  next(); runLoading(()=>{ renderResult(s); next(); });
+}
+
+function runLoading(done){
+  const lis=[...document.querySelectorAll('#loadSteps li')]; lis.forEach(l=>l.classList.remove('ok'));
+  lis.forEach((l,i)=>setTimeout(()=>l.classList.add('ok'),500+i*550));
+  setTimeout(done, 500+lis.length*550+300);
+}
+
+const TIER_TXT = {
+  alto:  {tag:"Muitos sinais", title:"Suas respostas têm o padrão que costuma aparecer em adultos com TDAH",
+          text:"Você marcou sinais em frequência alta na maior parte das perguntas. Isso não fecha diagnóstico, mas é o tipo de resultado em que uma avaliação faz diferença: ela separa o que é TDAH do que pode ser ansiedade, cansaço ou outro quadro, e mostra o tratamento certo."},
+  medio: {tag:"Alguns sinais", title:"Você tem alguns sinais que merecem atenção",
+          text:"Parte das suas respostas aparece com frequência relevante. Pode ser TDAH, mas também pode ser ansiedade, sobrecarga ou outra causa que gera os mesmos sintomas. Conversar com um especialista ajuda a entender o que está por trás."},
+  baixo: {tag:"Poucos sinais", title:"Suas respostas mostram poucos sinais de TDAH",
+          text:"Pelo rastreio, os sintomas típicos de TDAH aparecem pouco. Se mesmo assim você sente dificuldade de foco, ansiedade ou cansaço mental, vale conversar com a gente: muitas vezes a causa é outra e tem tratamento."}
+};
+
+function nextStep(s){
+  if(state.idade==='Menos de 16') return {title:"Sobre o atendimento", text:"A Clínica Evidência atende a partir dos 16 anos. Se quiser, fale com a gente para receber uma indicação.", wa:"Fale com a clínica"};
+  if(state.historico==='Tenho diagnóstico e faço tratamento') return {title:"Próximo passo recomendado", text:"Você já está em tratamento. Se sentir que ele não está funcionando como deveria, nossa equipe pode te ajudar com psicoterapia focada em TDAH adulto (o protocolo <b>No Controle do TDAH</b>, 15 sessões em TCC).", wa:"Conhecer o protocolo de TDAH"};
+  if(state.historico==='Tenho diagnóstico e não faço tratamento') return {title:"Próximo passo recomendado", text:"Com o diagnóstico em mãos, o passo é tratar. Na clínica você tem o protocolo <b>No Controle do TDAH</b> (15 sessões de TCC focadas em organização, procrastinação e impulsividade) e consulta médica online, quando necessário.", wa:"Quero começar o tratamento"};
+  if(s.tier==='baixo') return {title:"Próximo passo recomendado", text:"Uma conversa inicial com nossa equipe ajuda a entender de onde vem a dificuldade e qual caminho faz sentido para você. O atendimento é 100% online.", wa:"Quero entender minhas dificuldades"};
+  return {title:"Próximo passo recomendado", text:"A <b>avaliação neuropsicológica</b> é o caminho para ter certeza. São de 5 a 7 encontros online com neuropsicólogo, e você sai com laudo e encaminhamento para o melhor tratamento para o seu caso.", wa:"Quero fazer a avaliação"};
+}
+
+function renderResult(s){
+  const t = TIER_TXT[s.tier], n = nextStep(s);
+  const first = state.nome.split(' ')[0];
+  document.getElementById('rHello').textContent = `Seu resultado, ${first}`;
+  const tier = document.getElementById('rTier'); tier.textContent = t.tag; tier.className = 'tier '+s.tier;
+  document.getElementById('rTitle').textContent = t.title;
+  document.getElementById('rText').textContent = t.text;
+  document.getElementById('gLbl').textContent = `${s.pos}/6`;
+  setTimeout(()=>{ document.getElementById('gArc').style.strokeDashoffset = 283 - 283*(s.pos/6); },50);
+  document.getElementById('dA').textContent = `${s.A} de 4`;
+  document.getElementById('dH').textContent = `${s.H} de 2`;
+  setTimeout(()=>{ document.getElementById('tA').style.width=(s.A/4*100)+'%'; document.getElementById('tH').style.width=(s.H/2*100)+'%'; },50);
+  if(state.impacto.length){
+    document.getElementById('rImpact').hidden=false;
+    document.getElementById('rImpactText').textContent = `Você contou que isso pesa em: ${state.impacto.join(', ').toLowerCase()}. ${state.urgencia>=7?'E quer resolver logo, então não deixe para depois.':'Quanto antes você entender a causa, mais leve fica.'}`;
+  }
+  document.getElementById('rNextTitle').textContent = n.title;
+  document.getElementById('rNext').innerHTML = n.text;
+  document.getElementById('waLbl').textContent = n.wa+' no WhatsApp';
+  const msg = `Oi! Eu vim do Quiz de TDAH. Sou ${first} e meu resultado foi "${t.tag}" (${s.pos}/6). Gostaria de mais informações.`;
+  document.getElementById('waBtn').onclick = ()=>{ track('quiz_whatsapp',{resultado:s.tier}); window.open(`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(msg)}`,'_blank'); };
+}
+
+function sendLead(s){
+  if(!CONFIG.webhookUrl) return;
+  const payload = {
+    origem: CONFIG.origem, nome: state.nome, whatsapp: state.wpp, email: state.email,
+    resultado: TIER_TXT[s.tier].tag, pontuacao: s.pos, nivel: s.tier, sinais_positivos: s.pos, pontuacao_total: s.raw, desatencao: s.A, hiperatividade: s.H,
+    respostas: state.answers.map((v,i)=>({pergunta:QUESTIONS[i].t, resposta:SCALE[v]})),
+    impacto: state.impacto, historico: state.historico, idade: state.idade, urgencia: state.urgencia,
+    pagina: location.href, ...utm, enviado_em: new Date().toISOString()
+  };
+  try{
+    LEAD.fim=true; leadSend(Object.assign({status:'completo'}, payload));
+  }catch(e){}
+}
+
+function track(ev,data={}){
+  try{ (window.dataLayer=window.dataLayer||[]).push({event:ev,...data}); }catch(e){}
+  try{ if(window.fbq){ ev==='quiz_lead' ? fbq('track','Lead',data) : fbq('trackCustom',ev,data); } }catch(e){}
+}
+
+const FORM_KEY='quiz_tdah';
+/* ===== Captura parcial: o lead cai na Clint assim que deixa nome e WhatsApp,
+   e o MESMO negócio é atualizado quando termina (ou com o ponto onde parou) ===== */
+const LEAD = { id: (()=>{ const g=()=> (window.crypto&&crypto.randomUUID)?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2);
+  try{ let v=sessionStorage.getItem('lead_id_'+FORM_KEY); if(!v){ v=g(); sessionStorage.setItem('lead_id_'+FORM_KEY,v); } return v; }catch(e){ return g(); } })(),
+  contato:false, fim:false, saiu:false };
+function leadSend(extra){
+  if(!CONFIG.webhookUrl) { console.info('[lead] webhookUrl vazio, nada enviado.', extra); return; }
+  const body=JSON.stringify(Object.assign({form:FORM_KEY, lead_id:LEAD.id, pagina:location.href, enviado_em:new Date().toISOString()}, utm, extra));
+  try{ fetch(CONFIG.webhookUrl,{method:'POST',headers:{'Content-Type':'text/plain;charset=UTF-8'},body,keepalive:true}); }catch(e){}
+}
+function leadSaiu(){ if(LEAD.contato && !LEAD.fim && !LEAD.saiu){ LEAD.saiu=true; leadSend(Object.assign({status:'progresso'}, leadProgresso())); } }
+document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='hidden') leadSaiu(); else LEAD.saiu=false; });
+window.addEventListener('pagehide',leadSaiu);
+
+function leadProgresso(){
+  const st=screens[cur]?screens[cur].dataset:{}, nomes={"impacto": "Impacto no dia a dia", "historico": "Histórico", "idade": "Idade", "urgencia": "Urgência", "contato": "Dados de contato"};
+  const etapa = st.step==='q' ? `Pergunta ${st.q} de 6` : (nomes[st.step]||st.step||'');
+  const respostas = state.answers.map((v,i)=>v==null?null:({pergunta:QUESTIONS[i].t, resposta:SCALE[v]})).filter(Boolean);
+  return { nome:state.nome, whatsapp:state.wpp, email:state.email, etapa:'Parou em: '+etapa, respostas,
+    impacto:state.impacto, historico:state.historico, idade:state.idade };
+}
+show(0);
+</script>
+</body>
+</html>
