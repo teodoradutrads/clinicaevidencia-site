@@ -369,6 +369,19 @@ wpp.addEventListener('input',()=>{
 // UTMs e origem
 const params = new URLSearchParams(location.search);
 const utm = {}; ["utm_source","utm_medium","utm_campaign","utm_content","utm_term","fbclid","gclid"].forEach(k=>{ if(params.get(k)) utm[k]=params.get(k); });
+// Sem UTM no link: descobre a origem pelo clique de anúncio ou pela página anterior
+if(!utm.utm_source){
+  let ref=''; try{ ref=new URL(document.referrer).hostname.replace(/^www\./,''); }catch(e){}
+  if(utm.gclid){ utm.utm_source='google'; utm.utm_medium='cpc'; }
+  else if(utm.fbclid){ utm.utm_source='facebook'; utm.utm_medium='paid_social'; }
+  else if(/google\./.test(ref)){ utm.utm_source='google'; utm.utm_medium='organic'; }
+  else if(/instagram\.com/.test(ref)){ utm.utm_source='instagram'; utm.utm_medium='referral'; }
+  else if(/facebook\.com/.test(ref)){ utm.utm_source='facebook'; utm.utm_medium='referral'; }
+  else if(/youtube\.com|youtu\.be/.test(ref)){ utm.utm_source='youtube'; utm.utm_medium='referral'; }
+  else if(ref==='clinicaevidencia.com.br'){ utm.utm_source='site'; utm.utm_medium='referral'; }
+  else if(ref){ utm.utm_source=ref; utm.utm_medium='referral'; }
+  else { utm.utm_source='direto'; }
+}
 
 function score(){
   let pos=0, A=0, H=0;
